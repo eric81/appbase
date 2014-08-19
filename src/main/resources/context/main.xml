@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+	  					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- ========================= GENERAL DEFINITIONS ========================= -->
+
+	<!-- Configurer that replaces ${...} placeholders with values from properties files -->
+	<!-- (in this case, mail and JDBC related properties) -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:app.properties</value>
+				<value>
+					classpath*:properties/*.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Using annotation-based configuration and classpath scanning -->
+	<context:component-scan base-package="com.eudemon.taurus.app">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="defaultDataSource" />
+	</bean>
+
+	<!-- Annotation driven transaction settings -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+
+	<!-- message source -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>i18n/messages</value>
+				<value>i18n/error</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="utf-8"></property>
+	</bean>
+
+	<!-- MailSender used by EmailAdvice -->
+	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> <property name="host" value="${mail.host}"/> 
+		</bean> -->
+
+	<!-- ========================= BUSINESS OBJECT DEFINITIONS ======================== -->
+</beans>

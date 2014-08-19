@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxActive" value="${redis.pool.maxActive}" />
+		<property name="maxIdle" value="${redis.pool.maxIdle}" />
+		<property name="maxWait" value="${redis.pool.maxWait}" />
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />
+	</bean>
+	
+	<bean id="redisPool" class="com.eudemon.taurus.app.cache.redis.RedisPool" init-method="init">
+		<property name="host" value="${redis.ip}" />
+		<property name="port" value="${redis.port}" />
+		<property name="password" value="${redis.password}" />
+		<property name="timeout" value="${redis.timeout}" />
+	</bean>
+</beans>
