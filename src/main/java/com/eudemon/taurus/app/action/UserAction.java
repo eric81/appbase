@@ -63,6 +63,7 @@ public class UserAction {
 			throws Exception {
 		int id = RequestUtils.getParameterAsInt(request, "id", 0);
 		String name = request.getParameter("name");
+		Log.getDebugLogger().trace("UserAction.uploadPhoto.parameter[id=" + id + ",name=" + name + "]");
 		
 		userService.updatePhoto(id, file);
 		
