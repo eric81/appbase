@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eudemon.taurus.app.common.Log;
 import com.eudemon.taurus.app.entity.User;
 import com.eudemon.taurus.app.service.UserService;
 import com.eudemon.taurus.app.util.RequestUtils;
@@ -31,6 +32,7 @@ public class UserAction {
 	@RequestMapping(value = "query", method = RequestMethod.POST)
 	public String query(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		String name = request.getParameter("name");
+		Log.getDebugLogger().trace("UserAction:query:parameter[name=" + name + "]");
 		
 		User user = null;
 		try {

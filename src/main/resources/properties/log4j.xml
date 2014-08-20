@@ -81,7 +81,7 @@
 		<appender-ref ref="error" />
 	</logger>
 	<logger name="debugLogger" additivity="false">
-		<level value="DEBUG" />
+		<level value="TRACE" />
 		<appender-ref ref="debug" />
 	</logger>
 	<logger name="org.springframework.jdbc.core" additivity="true">
