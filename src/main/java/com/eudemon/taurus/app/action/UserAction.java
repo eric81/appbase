@@ -74,6 +74,7 @@ public class UserAction {
 	public void viewPhoto(HttpServletRequest request, OutputStream responseBodyOut)
 			throws Exception {
 		int id = RequestUtils.getParameterAsInt(request, "id", 0);
+		Log.getDebugLogger().trace("UserAction.viewPhoto.parameter[id=" + id + "]");
 		
 		try {
 			byte[] photo = userService.getPhoto(id);
