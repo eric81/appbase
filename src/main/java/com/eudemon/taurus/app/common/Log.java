@@ -21,7 +21,6 @@ public class Log {
 	private static Logger infoLogger = null;
 	private static Logger debugLogger = null;
 	private static Logger errorLogger = null;
-	private static Logger traceLogger = null;
 
 	public static void init(String logPath, String logName) {
 		path = logPath;
@@ -31,7 +30,6 @@ public class Log {
 		infoLogger = Logger.getLogger("infoLogger");
 		debugLogger = Logger.getLogger("debugLogger");
 		errorLogger = Logger.getLogger("errorLogger");
-		traceLogger = Logger.getLogger("traceLogger");
 	}
 
 	public static Logger getInfoLogger() {
@@ -44,10 +42,6 @@ public class Log {
 
 	public static Logger getErrorLogger() {
 		return errorLogger;
-	}
-
-	public static Logger getTraceLogger() {
-		return traceLogger;
 	}
 
 	public static void logMap(Map<String, Object> hs) {
