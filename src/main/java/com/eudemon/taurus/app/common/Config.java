@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.DatabaseConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
-public class Config {
-	private static Configuration config = null;
+public class Config {	
+	private static Configuration ppConfig = null;
+	private static Configuration dbConfig = null;
+	private static CompositeConfiguration config = null;
 	
 	/**
 	 * Configuration about system enviroment
@@ -19,10 +25,16 @@ public class Config {
 	public static String javaVersion = SystemUtils.JAVA_RUNTIME_VERSION;
 	public static String userHome = SystemUtils.USER_HOME;
 
-	public static void init() throws Exception {
-		config = new PropertiesConfiguration("app.properties");
-		Log.init(config.getString("log.path"), config.getString("log.name"));
-		logInfo();
+	public static void initFromFile() throws Exception {
+		ppConfig = new PropertiesConfiguration("app.properties");
+		config = new CompositeConfiguration();
+		config.addConfiguration(ppConfig);
+	}
+	
+	public static void initFromDatabase() throws Exception {
+		DataSource ds = (DataSource) AppCtxServer.getInstance().getBean("defaultDataSource");
+		dbConfig = new DatabaseConfiguration(ds, "aconfig", "ckey", "cvalue");
+		config.addConfiguration(dbConfig);
 	}
 	
 	public static String getString(String key){
@@ -35,13 +47,6 @@ public class Config {
 	
 	public static boolean getBoolean(String key){
 		return config.getBoolean(key);
-	}
-	
-	/**
-	 * load config from database
-	 */
-	public final static void loadFromDataBase() {
-		
 	}
 
 	public static List<String> info() {

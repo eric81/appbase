@@ -22,7 +22,7 @@
 	<!-- ========================================================================== -->
 	
 	<appender name="info" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${path}/${app}_info.log" />
+		<param name="File" value="${log.path}/${log.name}_info.log" />
 		<param name="Append" value="true" />
 		<param name="Encoding" value="GBK" />
 		<param name="DatePattern" value="'_'yyyyMMdd'.txt'" />
@@ -35,7 +35,7 @@
 		</filter>
 	</appender>
 	<appender name="error" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${path}/${app}_error.log" />
+		<param name="File" value="${log.path}/${log.name}_error.log" />
 		<param name="Append" value="true" />
 		<param name="Encoding" value="GBK" />
 		<param name="DatePattern" value="'_'yyyyMMdd'.txt'" />
@@ -48,7 +48,7 @@
 		</filter>
 	</appender>
 	<appender name="debug" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${path}/${app}_debug.log" />
+		<param name="File" value="${log.path}/${log.name}_debug.log" />
 		<param name="Append" value="true" />
 		<param name="Encoding" value="UTF-8" />
 		<param name="DatePattern" value="'_'yyyyMMdd'.txt'" />
@@ -61,7 +61,7 @@
 		</filter>
 	</appender>
 	<appender name="all" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${path}/${app}_all.log" />
+		<param name="File" value="${log.path}/${log.name}_all.log" />
 		<param name="Append" value="true" />
 		<param name="Encoding" value="UTF-8" />
 		<param name="DatePattern" value="'_'yyyyMMdd'.txt'" />

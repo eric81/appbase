@@ -25,15 +25,19 @@ public class AppStartServer {
 		long st = System.currentTimeMillis();
 		
 		try {
-			Config.init();
+			Config.initFromFile();
 		} catch (Exception e) {
-			Log.getErrorLogger().error("Config initial failed", e);
 			e.printStackTrace();
 			return;
 		}
 		
+		Log.init(Config.getString("log.path"), Config.getString("log.name"));
+		Log.getInfoLogger().info("Starting applicatin[" + Config.getString("app.name") + "]");
+		Log.getInfoLogger().info("Initialized Configuration with PropertySources [app.properties]");
+		Log.getInfoLogger().info("Initialized logger, path:" + Config.getString("log.path") + ", name:" + Config.getString("log.name"));
+		
 		if(!Config.getBoolean("isStart")){
-			Log.getInfoLogger().info("Application : " + Config.getString("app.name") + " not sart by config ");
+			Log.getInfoLogger().info("Application[" + Config.getString("app.name") + "] not sart by config ");
 			return;
 		}
 		
@@ -41,11 +45,20 @@ public class AppStartServer {
 			AppCtxServer.getInstance().init(sct);
 		} catch (Exception e) {
 			Log.getErrorLogger().error("Application context initial failed", e);
-			e.printStackTrace();
 			return;
 		}
 		
-		Log.getInfoLogger().info("Application : " + Config.getString("app.name") + " startup in " + (System.currentTimeMillis() - st) + " ms");
+		try {
+			Config.initFromDatabase();
+			Log.getInfoLogger().info("Configuration added from database");
+		} catch (Exception e) {
+			Log.getErrorLogger().error("Adding Configuration from database failed", e);
+			return;
+		}
+		
+		Config.logInfo();
+		
+		Log.getInfoLogger().info("Application[" + Config.getString("app.name") + "] startup in " + (System.currentTimeMillis() - st) + " ms");
 	}
 
 	public static void main(String[] args) {

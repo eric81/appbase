@@ -32,7 +32,7 @@ public class UserAction {
 	@RequestMapping(value = "query", method = RequestMethod.POST)
 	public String query(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		String name = request.getParameter("name");
-		Log.getDebugLogger().trace("UserAction:query:parameter[name=" + name + "]");
+		Log.getDebugLogger().trace("UserAction.query.parameter[name=" + name + "]");
 		
 		User user = null;
 		try {
@@ -48,6 +48,7 @@ public class UserAction {
 	@RequestMapping(value = "delete")
 	public String delete(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		int id = RequestUtils.getParameterAsInt(request, "id", 0);
+		Log.getDebugLogger().trace("UserAction.delete.parameter[id=" + id + "]");
 		
 		boolean rs = this.userService.delete(id);
 		if(rs){
@@ -62,6 +63,7 @@ public class UserAction {
 			throws Exception {
 		int id = RequestUtils.getParameterAsInt(request, "id", 0);
 		String name = request.getParameter("name");
+		Log.getDebugLogger().trace("UserAction.uploadPhoto.parameter[id=" + id + ",name=" + name + "]");
 		
 		userService.updatePhoto(id, file);
 		
@@ -72,6 +74,7 @@ public class UserAction {
 	public void viewPhoto(HttpServletRequest request, OutputStream responseBodyOut)
 			throws Exception {
 		int id = RequestUtils.getParameterAsInt(request, "id", 0);
+		Log.getDebugLogger().trace("UserAction.viewPhoto.parameter[id=" + id + "]");
 		
 		try {
 			byte[] photo = userService.getPhoto(id);
