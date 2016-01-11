@@ -1,5 +1,7 @@
 package com.eudemon.taurus.app.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
@@ -44,18 +46,20 @@ public class RequestUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * @deprecated Method getParameterAsGBK is deprecated
-	 */
-
-	public static String getParameterAsGBK(HttpServletRequest req, String param) {
-		String result = req.getParameter(param);
-		return result != null ? result.trim() : "";
-	}
-
 	public static String getParameterAndTrim(HttpServletRequest req, String param) {
 		String result = req.getParameter(param);
 		return result != null ? result.trim() : "";
+	}
+	
+	public static String getParameterAndTrimDecode(HttpServletRequest req, String param, String encoding) {
+		String result = req.getParameter(param);
+		result = result != null ? result.trim() : "";
+		try {
+			result = URLDecoder.decode(req.getParameter("role"), encoding);
+		} catch (UnsupportedEncodingException e) {
+			Log.getErrorLogger().warn("getParameterAndTrimDecode UnsupportedEncodingException msg=" + e.getMessage());
+		}
+		return result;
 	}
 
 	public static String getParameterSafe(HttpServletRequest req, String param) {
